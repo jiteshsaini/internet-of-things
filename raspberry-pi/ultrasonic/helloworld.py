@@ -5,8 +5,9 @@ auth_token='754315ccc34a6aadae523175a8e8172c'
 sensorType_no="ultrasonic_3"
 #sensorType_no="temperature_2"
 
-#curr_dir=os.path.abspath(os.getcwd())
-curr_dir="/home/pi/Desktop/iot"
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+curr_dir=os.path.abspath(os.getcwd())
 
 def download_settings():
 	parameters="p=get*"+auth_token+"*"+sensorType_no
@@ -14,16 +15,13 @@ def download_settings():
 	cmd="curl -s " + url_remote
 	#print (cmd)
 	result=os.popen(cmd).read()
+	
 	f = open(curr_dir+"/settings.json", "wb")
-	#f = open("/home/pi/Desktop/iot/settings.json", "wb")
 	f.write(result)
 	f.close()
     
 	yy=json.loads(result)
-	print ("High Level Trigger")
-	print (yy["high_level_trigger"])
-	print ("Low Level Trigger")
-	print (yy["low_level_trigger"])
+	print(json.dumps(yy,indent=1))
 	
 
 def upload_data(reading):
@@ -37,9 +35,10 @@ def upload_data(reading):
 	print (xx["server_msg"])
 	
 	if(xx["state"]=="error"):
-		f = open("/home/pi/Desktop/iot/log.txt", "a")
+		f = open(curr_dir+"/log.txt", "a")
 		f.write(xx["server_time"] + ":" + xx["server_msg"] +"\n")
 		f.close()
+		
 		
 	if(xx["settings_flag"]=="1"):
 		download_settings()
