@@ -16,7 +16,7 @@ def download_settings():
 	#print (cmd)
 	result=os.popen(cmd).read()
 	
-	f = open(curr_dir+"/settings.json", "wb")
+	f = open(curr_dir+"/util/settings.json", "wb")
 	f.write(result)
 	f.close()
     
@@ -35,7 +35,7 @@ def upload_data(reading):
 	print (xx["server_msg"])
 	
 	if(xx["state"]=="error"):
-		f = open(curr_dir+"/log.txt", "a")
+		f = open(curr_dir+"/util/log.txt", "a")
 		f.write(xx["server_time"] + ":" + xx["server_msg"] +"\n")
 		f.close()
 		
@@ -44,7 +44,7 @@ def upload_data(reading):
 		download_settings()
 		
 def read_settings():
-	f = open(curr_dir+"/settings.json")
+	f = open(curr_dir+"/util/settings.json")
 	settings = json.load(f)
 	f.close()
 	return settings

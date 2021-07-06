@@ -13,7 +13,7 @@ def action(reading):
 	if (reading>int(settings["high_level_trigger"])):
 		str1=str(reading) + " is above high_level_trigger - " + settings["high_level_trigger"] + "\n"
 		print(str1)
-		f = open(hw.curr_dir+"/alarm.txt", "a")
+		f = open(hw.curr_dir+"/util/alarm.txt", "a")
 		f.write(str1)
 		f.close()
 	else:
