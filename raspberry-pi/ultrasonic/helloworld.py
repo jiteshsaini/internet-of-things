@@ -35,7 +35,7 @@ def upload_data(reading):
 	print (xx["server_msg"])
 	
 	if(xx["state"]=="error"):
-		f = open(curr_dir+"/util/log.txt", "a")
+		f = open(curr_dir+"/util/error_log.txt", "a")
 		f.write(xx["server_time"] + ":" + xx["server_msg"] +"\n")
 		f.close()
 		
