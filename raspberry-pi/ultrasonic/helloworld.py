@@ -1,4 +1,4 @@
-auth_token='ed5d1166c007dd2f068cd31636de6912'
+auth_token='xxxxxx'
 
 sensorType_no="ultrasonic_1"
 
@@ -10,7 +10,7 @@ curr_dir=os.path.abspath(os.getcwd())
 
 def upload_data(reading):
 	parameters="p="+auth_token+"*"+sensorType_no+"*"+str(reading)
-	url_remote="https://helloworld.co.in/iot/data.php?"+parameters
+	url_remote="https://helloworld.co.in/iot/sensor_ultrasonic/data.php?"+parameters
 	cmd="curl -s " + url_remote
 	#print (cmd)
 	try:
@@ -27,9 +27,9 @@ def upload_data(reading):
 			 f = open(curr_dir+"/util/error_log.txt", "a")
 			 f.write(xx["server_time"] + ":" + xx["server_msg"] +"\n")
 			 f.close()
-	except:
-		print("..")
-		pass
+	except Exception as e:
+		print(e)
+		
 		
 
 def read_settings():
