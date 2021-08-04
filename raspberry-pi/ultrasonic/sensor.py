@@ -1,28 +1,84 @@
-import random
 import helloworld as hw
+import time
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+
+TRIG = 6
+ECHO = 5
+GPIO.setup(TRIG,GPIO.OUT)
+GPIO.setup(ECHO,GPIO.IN)
+GPIO.output(TRIG, False)
+
+PIN_1 = 14
+PIN_2 = 15
+GPIO.setup(PIN_1,GPIO.OUT)
+GPIO.setup(PIN_2,GPIO.OUT)
+#GPIO.output(PIN_1, False)
+#GPIO.output(PIN_2, False)
 
 def measure_distance():
-	d=random.randrange(10, 95)
-	return d
+	dist_add = 0
+	loop=20
+	for x in range(loop):
+		try:
+			GPIO.output(TRIG, True)
+			time.sleep(0.00001)
+			GPIO.output(TRIG, False)
 
+			while GPIO.input(ECHO)==0:
+				pulse_start = time.time()
+
+			while GPIO.input(ECHO)==1:
+				pulse_end = time.time()
+
+			pulse_duration = pulse_end - pulse_start
+			distance = pulse_duration * 17150
+			distance = round(distance, 3)
+			#print (x, "distance: ", distance)	
+			dist_add = dist_add + distance
+			
+			time.sleep(.1) # 100ms interval between readings
+		
+		except Exception as e: 
+			pass
+
+	avg_dist=dist_add/(loop)
+	dist=round(avg_dist,3)
+	return dist
+	
 def action(reading):
 	settings = hw.read_settings()
-	print (reading)
-	print (settings["high_level_trigger"])
 	
-	if (reading>int(settings["high_level_trigger"])):
-		str1=str(reading) + " is above high_level_trigger - " + settings["high_level_trigger"] + "\n"
-		print(str1)
-		f = open(hw.curr_dir+"/util/alarm.txt", "a")
-		f.write(str1)
-		f.close()
-	else:
-		str1=str(reading) + " is below high_level_trigger - " + settings["high_level_trigger"] + "\n"
-		print(str1)
+	if(settings==0):
+		print("file not present")
+		return 
+	
+	low_level_trigger=int(settings["low_level_trigger"])
+	high_level_trigger=int(settings["high_level_trigger"])
+	tank_height=int(settings["tank_height"])
+	
+	water_level=tank_height-reading
+	
+	print (water_level,high_level_trigger,low_level_trigger)
+	
+	if (water_level>=high_level_trigger):
+		GPIO.output(PIN_1, True)
+	
+	if (water_level<=low_level_trigger):
+		GPIO.output(PIN_2, True)
+	
+	if (water_level>low_level_trigger and water_level<high_level_trigger):
+		GPIO.output(PIN_1, False)
+		GPIO.output(PIN_2, False)
+	
 	
 def main():
+	print ("Waiting For Sensor To Settle")
+	time.sleep(1) #settling time 
 	
-	reading = measure_distance()
+	#reading = measure_distance()
+	reading = 83
 	
 	hw.upload_data(reading)
 	
