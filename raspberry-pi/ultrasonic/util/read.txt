@@ -1,0 +1,9 @@
+Following files are automatically created in this folder:-
+
+- "settings.json"
+The settings you make on your online widget are downloaded and saved in this file. Whenever you update the settings online, this file gets updated automatically.
+
+
+
+- "error_log.txt"
+An error message thrown by Server are logged in this file
