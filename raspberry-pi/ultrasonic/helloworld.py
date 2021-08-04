@@ -33,7 +33,11 @@ def upload_data(reading):
 		
 
 def read_settings():
-	f = open(curr_dir+"/util/settings.json")
-	settings = json.load(f)
-	f.close()
-	return settings
+	path=curr_dir+"/util/settings.json"
+	if(os.path.isfile(path)):
+		f = open(path)
+		settings = json.load(f)
+		f.close()
+		return settings
+	else:
+		return 0
