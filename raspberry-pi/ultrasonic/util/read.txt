@@ -6,4 +6,4 @@ The settings you make on your online widget are downloaded and saved in this fil
 
 
 - "error_log.txt"
-An error message thrown by Server are logged in this file
+An error message thrown by Server are logged in this file.
