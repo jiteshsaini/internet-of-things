@@ -9,7 +9,7 @@ Start here: <a href='https://helloworld.co.in/iot' target='_blank'>
 </a>
 </p>
 
-This repo will be populated with projects for connecting your your IOT boards such as Raspberry Pi, ESP 32 and Arduino to the Web Application running at www.helloworld.co.in/iot and make use of the online widgets there to to visualise your sensor data online.
+This repo will be populated with projects for connecting your your IOT boards such as Raspberry Pi, ESP 32 and Arduino to the Web Application running at https://helloworld.co.in/iot and make use of the online widgets there to to visualise your sensor data online.
 
 <img src='https://github.com/jiteshsaini/files/blob/main/img/iot_working.png'>
 
