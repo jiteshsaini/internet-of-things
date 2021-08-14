@@ -1,3 +1,4 @@
+
 import helloworld as hw
 import time
 import RPi.GPIO as GPIO
@@ -11,15 +12,13 @@ GPIO.setup(ECHO,GPIO.IN)
 GPIO.output(TRIG, False)
 
 PIN_1 = 14
-PIN_2 = 15
+PIN_2 = 23
 GPIO.setup(PIN_1,GPIO.OUT)
 GPIO.setup(PIN_2,GPIO.OUT)
-#GPIO.output(PIN_1, False)
-#GPIO.output(PIN_2, False)
 
 def measure_distance():
 	dist_add = 0
-	loop=20
+	loop=10
 	for x in range(loop):
 		try:
 			GPIO.output(TRIG, True)
@@ -35,7 +34,7 @@ def measure_distance():
 			pulse_duration = pulse_end - pulse_start
 			distance = pulse_duration * 17150
 			distance = round(distance, 3)
-			#print (x, "distance: ", distance)	
+			print (x, "distance: ", distance)	
 			dist_add = dist_add + distance
 			
 			time.sleep(.1) # 100ms interval between readings
@@ -45,6 +44,8 @@ def measure_distance():
 
 	avg_dist=dist_add/(loop)
 	dist=round(avg_dist,3)
+	print ("Avg distance: ", dist)
+	
 	return dist
 	
 def action(reading):
@@ -54,19 +55,19 @@ def action(reading):
 		print("file not present")
 		return 
 	
-	low_level_trigger=int(settings["low_level_trigger"])
-	high_level_trigger=int(settings["high_level_trigger"])
-	tank_height=int(settings["tank_height"])
+	low_level_trigger=float(settings["low_level_trigger"])
+	high_level_trigger=float(settings["high_level_trigger"])
+	tank_height=float(settings["tank_height"])
 	
 	water_level=tank_height-reading
-	
-	print (water_level,high_level_trigger,low_level_trigger)
-	
+
 	if (water_level>=high_level_trigger):
 		GPIO.output(PIN_1, True)
+		GPIO.output(PIN_2, False)
 	
 	if (water_level<=low_level_trigger):
 		GPIO.output(PIN_2, True)
+		GPIO.output(PIN_1, False)
 	
 	if (water_level>low_level_trigger and water_level<high_level_trigger):
 		GPIO.output(PIN_1, False)
@@ -75,10 +76,9 @@ def action(reading):
 	
 def main():
 	print ("Waiting For Sensor To Settle")
-	time.sleep(1) #settling time 
+	time.sleep(0.3) #settling time 
 	
-	#reading = measure_distance()
-	reading = 83
+	reading = measure_distance()
 	
 	hw.upload_data(reading)
 	
