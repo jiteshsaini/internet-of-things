@@ -1,7 +1,5 @@
-auth_token='754315ccc34a6aadae523175a8e8172c'
-#754315ccc34a6aadae523175a8e8172c
-#12250e6d704116b7fe6822b9e4d80ab9
-board_no="board_2"
+auth_token='xxxxxx'
+board_no="board_1"
 
 #======DO NOT MODIFY THE CODE BELOW =======================#
 import os, json, time
