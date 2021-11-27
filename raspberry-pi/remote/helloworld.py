@@ -1,4 +1,4 @@
-auth_token='xxxxxx'
+auth_token="xxxxxx"
 board_no="board_1"
 
 #======DO NOT MODIFY THE CODE BELOW =======================#
@@ -22,24 +22,18 @@ def fetch_data():
 	print (cmd)
 	try:
 	  result=os.popen(cmd).read()
-	  #print("result : ", result)
 	  if(result=="202"):
 		  print("Remote not configured")
 		  return
 		
 	  xx=json.loads(result)
-	  #print("xx : ",xx)
-	   
 	  yy=read_from_file()
-	  #print("yy : ",yy)
 	  
 	  if (yy != xx):
-		  #print("not a match")
 		  write_to_file(result)
 	
 	  print(json.dumps(xx,indent=1))
-	  
-	 
+		
 	except Exception as e:
 		print(e)
 	
@@ -78,7 +72,6 @@ def camera_picture_upload():
 		print(e)
 		
 def action():
-	#print("setting pins")
 	yy=read_from_file()
 	
 	for (k, v) in yy.items():
