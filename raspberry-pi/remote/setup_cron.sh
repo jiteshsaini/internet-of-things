@@ -11,6 +11,7 @@ else
 	echo "* * * * * sudo python $PWD/$FILE_NAME &" >> mycron
 	crontab mycron
 	rm mycron
+	sudo chmod 777 -R $PWD
 	echo "cron task added. Now $PWD/$FILE_NAME file will run every minute"
 fi
 
