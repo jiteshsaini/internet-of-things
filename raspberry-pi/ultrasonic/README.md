@@ -1,6 +1,6 @@
 ### This code is meant for Raspberry Pi (all models)
 
-The file 'helloworld.py' does the job of communicating with online widget hosted at www.helloworld.co.in/iot/sensor_ultrasonic. 
+The file 'helloworld.py' does the job of communicating with online widget hosted at https://helloworld.co.in/iot/sensor_ultrasonic. 
 You need to personalise it by pasting your Authentication Code in it. 
 
 This file is imported in other Python files so that you can send the data to your online widget in just one line of code. 
@@ -17,3 +17,8 @@ Once you have successfully establised communication with your online widget, it 
 This file calculates the distance reading from the actual sensor (HC-SR04 ultrasonic distance sensor) and uploads it to the online widget. 
 You need to interface the sensor to Raspberry Pi before you run this file.
 The file also demonstrates how to make use of the settings (made on online widget) to actuate the GPIO pins. You can modify this file as per your requirement.
+
+### Watch the video on Yotube 
+<a href='https://youtu.be/ETrYPMRdL-E '>
+   <img src='https://github.com/jiteshsaini/files/blob/main/img/btn_youtube.png' height='40px'>
+</a>
