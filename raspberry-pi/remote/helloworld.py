@@ -18,7 +18,7 @@ parameters="p="+auth_token+"*"+board_no
 
 def fetch_data():
 	url =site+"/read_data.php?"+parameters
-	cmd="curl -s " + url
+	cmd="curl -s -k " + url
 	print (cmd)
 	try:
 	  result=os.popen(cmd).read()
