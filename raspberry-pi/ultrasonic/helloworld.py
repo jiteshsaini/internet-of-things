@@ -11,7 +11,7 @@ curr_dir=os.path.abspath(os.getcwd())
 def upload_data(reading):
 	parameters="p="+auth_token+"*"+sensorType_no+"*"+str(reading)
 	url_remote="https://helloworld.co.in/iot/sensor_ultrasonic/data.php?"+parameters
-	cmd="curl -s " + url_remote
+	cmd="curl -s -k " + url_remote
 	#print (cmd)
 	try:
 	  result=os.popen(cmd).read()
