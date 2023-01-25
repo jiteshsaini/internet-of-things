@@ -2,7 +2,7 @@
 
 It works in conjunction with an online remote control created at https://helloworld.co.in/iot/remote/
 
-You can access your online remote by creating an account <a href='https://helloworld.co.in/iot/users/login.php'>here</a>. When you create an account, an Athentication Token (auth_token) is sent to you via email.
+You can access your online remote by creating an account <a href='https://helloworld.co.in/users/login.php'>here</a>. When you create an account, an Athentication Token (auth_token) is sent to you via email.
 
 ### Procedure to use
   
