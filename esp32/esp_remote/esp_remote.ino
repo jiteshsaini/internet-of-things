@@ -10,6 +10,11 @@
  *  - Auto connects to wifi
  *  - checks data on the server every 20 seconds and fetch data
  *  (The GPIO pins configured on web remote will be controlled automatically, no need to change the code here)
+ *  
+ *  You can use upto 04 ESP32 boards with the 04 instances of Web Remote available to you (at the bottom of GUI).
+ *  Upload the same code to all the ESP32, just ensure that "board_no" at line 29 should be selected as per the Remote No as  
+ *  mentioned in the comments.
+ *  
  */
  
 #include <WiFi.h>
@@ -19,9 +24,13 @@
 const char* ssid = "YourSSID";
 const char* password = "YourPassword";
 
-String auth_token = "xxxx"; //paste your auth_token here
-String board_no = "board_1"; 
+String auth_token = "85950f6d704116b7fd6839b9e4d80ab7"; //paste your auth_token here
 
+String board_no = "board_1"; // pair this ESP32 board with Remote 1. 
+                             //change it to "board_2" you want this ESP to be controlled by Remote 2 of Web Remote
+                             //change it to "board_3" you want this ESP to be controlled by Remote 3 of Web Remote
+                             //change it to "board_4" you want this ESP to be controlled by Remote 4 of Web Remote
+                             
 /***********************************************************************************/
 /******************DO NOT MODIFY THE CODE BELOW*************************************/
 /***********************************************************************************/
@@ -90,7 +99,7 @@ void set_pin_state(String pin_no, String state){
   digitalWrite(pin_no.toInt(), state.toInt());
 }
 
-void fetch_data(char* zz)
+void fetch_data(const char* zz)
 {
    //zz=="1" on boot request, server sends all the data 
    //zz=="0" regular request, server sends the changes only
@@ -121,9 +130,9 @@ void fetch_data(char* zz)
         for (JsonPair kv : obj) {
             Serial.print(kv.key().c_str());
             Serial.print(" : ");
-            Serial.println(kv.value().as<char*>());
+            Serial.println(kv.value().as<const char*>());
 
-            set_pin_state(kv.key().c_str(),kv.value().as<char*>());
+            set_pin_state(kv.key().c_str(),kv.value().as<const char*>());
         }  
       }
       else {
