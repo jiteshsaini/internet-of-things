@@ -7,11 +7,10 @@ if [ $? -eq 0 ]
 then
 	echo "$FILE_NAME is already running"
 else
-	crontab -l > mycron
-	echo "* * * * * sudo python $PWD/$FILE_NAME &" >> mycron
+	crontab -l 2>/dev/null > mycron
+	echo "* * * * * python3 $PWD/$FILE_NAME > /dev/null 2>&1 &" >> mycron
 	crontab mycron
 	rm mycron
-	sudo chmod 777 -R $PWD
 	echo "cron task added. Now $PWD/$FILE_NAME file will run every minute"
 fi
 
