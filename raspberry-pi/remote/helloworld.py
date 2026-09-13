@@ -18,7 +18,7 @@ parameters="p="+auth_token+"*"+board_no
 
 def fetch_data():
 	url =site+"/read_data.php?"+parameters
-	cmd="curl -s -k " + url
+	cmd="curl -s " + url
 	print (cmd)
 	try:
 	  result=os.popen(cmd).read()
@@ -42,22 +42,14 @@ def fetch_data():
 import requests
 def camera_picture_upload():
 	
-	f = open("/etc/os-release")
-	text = f.readline()
-	f.close()
-	x = text.index("Linux")
-	y = text.index("(")
-	ver=int(text[x+6:y])
+	#Raspberry Pi OS Bookworm and later ship rpicam-still, and it needs a camera on
+	#the CSI ribbon connector - a USB webcam will not work with it. On an older card
+	#the tool is called libcamera-still (Bullseye) or raspistill (Buster); change the
+	#line below if you are on one of those.
+	cmd = "rpicam-still -o " + curr_dir+"/image.jpg" + " --width 1640 --height 1232"
+	#cmd = cmd + " --vflip --hflip" #uncomment if your camera is mounted upside down
 	
-	if(ver>=11):
-		cmd= "libcamera-still -o " +  curr_dir+"/image.jpg" + " --width 1640 --height 1232"
-		#cmd= "libcamera-still -o " +  curr_dir+"/image.jpg" + " --width 1640 --height 1232 --vflip --hflip"
-		print(cmd)
-		
-	else:
-		cmd= "raspistill -o " +  curr_dir+"/image.jpg"  + " -w 1640 -h 1232"
-		#cmd= "raspistill -o " +  curr_dir+"/image.jpg"  + " -w 1640 -h 1232 -vf -hf"
-		print(cmd)
+	print(cmd)
 	
 	try:
 		p=os.system(cmd)
@@ -130,7 +122,15 @@ def main():
 	for x in range(z[0]):
 		#print(str(z[0]) + "," + str(z[1]))
 		fetch_data()
-		time.sleep(z[1])
+		# No sleep after the final fetch. cron restarts this script every 60s,
+		# and sleeping n times (rather than n-1) made each run last n*t seconds
+		# - exactly 60 with the defaults - so every run was still holding the
+		# GPIO pins when the next one started. On modern Pi OS the pins are
+		# exclusive (rpi-lgpio), so the incoming run died with "GPIO not
+		# allocated" after a single fetch. Measured on the server: every other
+		# minute saw 1 poll instead of 3.
+		if x < z[0] - 1:
+			time.sleep(z[1])
 	
 	
 	#fetch_data()
