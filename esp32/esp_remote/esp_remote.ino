@@ -21,10 +21,10 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 
-const char* ssid = "YourSSID";
-const char* password = "YourPassword";
+const char* ssid = "your_wifi_name";
+const char* password = "your_wifi_password";
 
-String auth_token = "85950f6d704116b7fd6839b9e4d80ab7"; //paste your auth_token here
+String auth_token = "xxxxxx"; //paste your auth_token here
 
 String board_no = "board_1"; // pair this ESP32 board with Remote 1. 
                              //change it to "board_2" you want this ESP to be controlled by Remote 2 of Web Remote
